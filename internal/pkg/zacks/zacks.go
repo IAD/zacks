@@ -13,7 +13,7 @@ import (
 
 func NewZacks(
 	ctx context.Context,
-	opts ...option,
+	opts ...Option,
 ) *Zacks {
 	z := &Zacks{}
 
@@ -103,9 +103,9 @@ func (z *Zacks) GetHistory(ctx context.Context, ticker string) ([]models.Rating,
 	return []models.Rating{}, fmt.Errorf("can't process. The ticker %s isn't found in cache", ticker)
 }
 
-type option func(*Zacks)
+type Option func(*Zacks)
 
-func WithCache() option {
+func WithCache() Option {
 	return func(z *Zacks) {
 		z.cache = cache.NewCache()
 	}
@@ -117,19 +117,19 @@ type persistable interface {
 	AddRating(ctx context.Context, rating models.Rating) error
 }
 
-func WithDBCache(dbCache persistable) option {
+func WithDBCache(dbCache persistable) Option {
 	return func(z *Zacks) {
 		z.dbCache = dbCache
 	}
 }
 
-func WithFetcher(timeout time.Duration) option {
+func WithFetcher(timeout time.Duration) Option {
 	return func(z *Zacks) {
 		z.fetcher = fetcher.NewFetcher(timeout)
 	}
 }
 
-func WithRefresher(period time.Duration) option {
+func WithRefresher(period time.Duration) Option {
 	return func(z *Zacks) {
 		z.refresher = refresher.NewRefresher(period)
 	}

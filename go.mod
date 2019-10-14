@@ -13,6 +13,7 @@ require (
 	github.com/go-openapi/validate v0.19.3
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/jessevdk/go-flags v1.4.0
+	github.com/joeshaw/envdecode v0.0.0-20190604014844-d6d9849fcc2c
 	github.com/rs/cors v1.7.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/stretchr/testify v1.4.0

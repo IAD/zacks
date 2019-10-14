@@ -42,8 +42,24 @@ gen-client:
 		-m $(NAME)$(MODELS_PKG_SUFFIX) \
 		-t $(CLIENT_PATH)
 
-build-docker:
+docker-build:
 	docker build -t docker.io/iadolgov/zacks -f deployments/Dockerfile.multistage .
 
 docker-run:
-	docker run -p 8080:8080 docker.io/iadolgov/zacks:latest
+	docker run -p 8080:8080 \
+        -e SERVER_PORT=8080 \
+        -e CACHE_ENABLED=true \
+        -e DBCACHE_ENABLED=true \
+        -e DBCACHE_MONGODB_URL=mongodb://localhost:27017 \
+        -e DBCACHE_MONGODB_DATABASE_NAME=zacks \
+        -e FETCHER_ENABLED=true \
+        -e FETCHER_TIMEOUT_SECONDS=10 \
+        -e REFRESHER_ENABLED=true \
+        -e REFRESHER_RESCAN_SECONDS=3600 \
+        docker.io/iadolgov/zacks:latest
+
+run:
+	go run ./internal/app/server/.
+
+up:
+	cd api; docker-compose up
