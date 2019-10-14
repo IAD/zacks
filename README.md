@@ -8,7 +8,7 @@ This code is written on the GO(golang) language and could be used to receive Zac
  - get the history of Zacks Rank of a stock
  - watch for changes
 
-# Example
+# Example using docker
  - Use docker container to start a service: 
 ```
 docker run -p 8080:80 \
@@ -31,11 +31,32 @@ docker run -p 8080:80 \
 ```
  open the page http://localhost:8080/M/history
 ```
+
+# Example using docker-compose
+ - Start predefined set of containers from https://github.com/IAD/zacks/blob/master/api/docker-compose.yml :
+```
+make up
+``` 
+ - Explore Swagger UI for the Zacks Rank service:
+```
+http://localhost:8082
+```
+ - To receive Zacks Rank for the ticker "M": open the page:
+```
+http://localhost:8080/M
+```
+ - To receive Zacks Rank History for the ticker "M", open the page: 
+```
+http://localhost:8080/M/history
+```
+ - explore MongoDB cached values:
+```
+http://localhost:8081
+```
  
 # RoadMap
- - add DB cache implementation(mongodb)
- - notify about Zack Rank changes
- 
+    nothing :)
+     
  # Pull Requests and Questions
   - Pull Requests: https://github.com/IAD/zacks/pulls
   - Questions: https://github.com/IAD/zacks/issues
