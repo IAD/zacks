@@ -3,7 +3,6 @@ package refresher
 import (
 	"context"
 	"fmt"
-	"log"
 	"sync"
 	"time"
 
@@ -79,7 +78,6 @@ func (r *Refresher) do(
 		default:
 			ticker := r.getNextTickerForUpdate(ctx)
 			if ticker == nil {
-				log.Println("0=1", ticker)
 				return nil
 			}
 

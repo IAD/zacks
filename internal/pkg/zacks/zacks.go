@@ -45,10 +45,16 @@ func (z *Zacks) GetRating(ctx context.Context, ticker string) (*models.Rating, e
 		}
 	}
 
+	if z.refresher != nil {
+		z.refresher.Watch(ticker)
+	}
+
 	if z.dbCache != nil {
 		rating, err := z.dbCache.GetRating(ctx, ticker)
 		if rating != nil {
-			go z.cache.AddRating(ctx, *rating)
+			if z.cache != nil {
+				go z.cache.AddRating(ctx, *rating)
+			}
 			if err == nil {
 				return rating, err
 			}
@@ -58,8 +64,12 @@ func (z *Zacks) GetRating(ctx context.Context, ticker string) (*models.Rating, e
 	if z.fetcher != nil {
 		rating, err := z.fetcher.GetRating(ctx, ticker)
 		if rating != nil {
-			go z.cache.AddRating(ctx, *rating)
-			go z.dbCache.AddRating(ctx, *rating)
+			if z.cache != nil {
+				go z.cache.AddRating(ctx, *rating)
+			}
+			if z.dbCache != nil {
+				go z.dbCache.AddRating(ctx, *rating)
+			}
 		}
 
 		return rating, err
@@ -68,7 +78,7 @@ func (z *Zacks) GetRating(ctx context.Context, ticker string) (*models.Rating, e
 	return nil, fmt.Errorf("can't process. The ticker %s isn't found in cache and don't have a fetcher", ticker)
 }
 
-func (z *Zacks) GetHistory(ticker string) ([]models.Rating, error) {
+func (z *Zacks) GetHistory(ctx context.Context, ticker string) ([]models.Rating, error) {
 	return make([]models.Rating, 0), nil
 }
 

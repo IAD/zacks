@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github/IAD/zacks/internal/pkg/models"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -75,7 +74,6 @@ func parse(html string) (*models.Rating, error) {
 		return nil, err
 	}
 
-	log.Println(doc.Find(".gs-snippet").Text())
 	if strings.Contains(doc.Find("title").Text(), "Zacks Search Results") {
 		return nil, errors.New("TickerNotExists")
 	}

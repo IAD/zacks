@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"reflect"
+	"time"
+)
 
 type Rating struct {
 	Ticker            string    `json:"ticker"`
@@ -21,4 +24,9 @@ type Rating struct {
 	ForwardPE         float64   `json:"forward_pe"`
 	PEGRatio          float64   `json:"peg_ratio"`
 	DateReceived      time.Time `json:"date_received"`
+}
+
+func (r Rating) Equals(or Rating) bool {
+	r.DateReceived = or.DateReceived
+	return reflect.DeepEqual(r, or)
 }

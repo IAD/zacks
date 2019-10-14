@@ -60,6 +60,14 @@ func (c *Cache) AddRating(ctx context.Context, rating models.Rating) error {
 		ratings = make([]models.Rating, 0)
 	}
 
+	// skip duplicates
+	if len(ratings) > 0 {
+		lastRating := ratings[len(ratings)-1]
+		if lastRating.Equals(rating) {
+			return nil
+		}
+	}
+
 	ratings = append(ratings, rating)
 
 	c.history[rating.Ticker] = ratings
