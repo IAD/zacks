@@ -9,9 +9,18 @@ This code is written on the GO(golang) language and could be used to receive Zac
  - watch for changes
 
 # Example
- - Use docker container to start a service: docker run -p 8080:8080 docker.io/iadolgov/zacks:latest
- - To receive Zacks Rank for the ticker "M": open the page http://localhost:8080/M
- - To receive Zacks Rank History for the ticker "M": open the page http://localhost:8080/M/history
+ - Use docker container to start a service: 
+```
+docker run -p 8080:8080 docker.io/iadolgov/zacks:latest
+```
+ - To receive Zacks Rank for the ticker "M": open the page
+```
+ http://localhost:8080/M
+```
+ - To receive Zacks Rank History for the ticker "M": 
+```
+ open the page http://localhost:8080/M/history
+```
  
 # RoadMap
  - add DB cache implementation(mongodb)
