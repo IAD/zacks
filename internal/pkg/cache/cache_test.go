@@ -87,8 +87,8 @@ func TestGetHistory(t *testing.T) {
 		Name:              "AAPL Name",
 		Rank:              1,
 		RankText:          "A",
-		ScoreValue:        2,
-		ScoreValueText:    "B",
+		ScoreValue:        3,   // different
+		ScoreValueText:    "C", // different
 		ScoreGrowth:       3,
 		ScoreGrowthText:   "C",
 		ScoreMomentum:     4,
