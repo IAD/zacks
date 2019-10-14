@@ -41,3 +41,9 @@ gen-client:
 		-c $(NAME)$(CLIENT_PKG_SUFFIX) \
 		-m $(NAME)$(MODELS_PKG_SUFFIX) \
 		-t $(CLIENT_PATH)
+
+build-docker:
+	docker build -t docker.io/iadolgov/zacks -f deployments/Dockerfile.multistage .
+
+docker-run:
+	docker run -p 8080:8080 docker.io/iadolgov/zacks:latest

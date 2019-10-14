@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 
@@ -37,12 +36,6 @@ func main() {
 		zacks.WithRefresher(time.Minute),
 	)
 
-	rating, err := z.GetRating(ctx, "AAPL")
-	if err != nil {
-		log.Println(err)
-	}
-	fmt.Printf("%+v", rating)
-
 	swaggerSpec, err := loads.Analyzed(restapi.SwaggerJSON, "")
 	if err != nil {
 		log.Fatalln(err)
@@ -60,6 +53,7 @@ func main() {
 	server := restapi.NewServerWithMiddleware(api, "zacks", logger)
 	server.Port = 8080
 
+	logger.Println("Starting server on the port 8080")
 	err = server.Serve()
 	if err != nil {
 		log.Fatalf(err.Error())
