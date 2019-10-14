@@ -45,6 +45,9 @@ gen-client:
 docker-build:
 	docker build -t docker.io/iadolgov/zacks -f deployments/Dockerfile.multistage .
 
+docker-deploy:
+	docker push iadolgov/zacks
+
 docker-run:
 	docker run -p 8080:8080 \
         -e SERVER_PORT=8080 \
