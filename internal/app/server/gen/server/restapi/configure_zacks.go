@@ -34,6 +34,13 @@ func configureAPI(api *operations.ZacksAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	// Handler for GET /
+	api.GetHandler = operations.GetHandlerFunc(func(params *operations.GetParams,
+		getOK operations.NewGetOKFunc,
+	) middleware.Responder {
+		return middleware.NotImplemented("operation .Get has not yet been implemented")
+	})
+
 	// Handler for GET /{ticker}
 	api.GetTickerHandler = operations.GetTickerHandlerFunc(func(params *operations.GetTickerParams,
 		getTickerOK operations.NewGetTickerOKFunc,

@@ -9,6 +9,12 @@ produces:
 schemes:
   - http
 paths:
+  /:
+    get:
+      responses:
+        200:
+          description: OK
+
   /{ticker}:
     get:
       parameters:

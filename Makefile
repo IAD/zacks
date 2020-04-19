@@ -66,3 +66,12 @@ run:
 
 up:
 	cd api; docker-compose up
+
+prod-build:
+	docker build -t s1.local:32000/iadolgov/zacks:latest -f deployments/Dockerfile.multistage .
+
+prod-push:
+	docker push s1.local:32000/iadolgov/zacks:latest
+
+prod-deploy:
+	helm --kubeconfig ~/.kube/s1 upgrade --wait --install --force zacks-deployment ./deployments/k8s/s1/

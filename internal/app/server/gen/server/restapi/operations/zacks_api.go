@@ -37,6 +37,9 @@ func NewZacksAPI(spec *loads.Document) *ZacksAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
+		GetHandler: GetHandlerFunc(func(params *GetParams, getOK NewGetOKFunc) middleware.Responder {
+			return middleware.NotImplemented("operation Get has not yet been implemented")
+		}),
 		GetTickerHandler: GetTickerHandlerFunc(func(params *GetTickerParams, getTickerOK NewGetTickerOKFunc, getTickerNotFound NewGetTickerNotFoundFunc, getTickerInternalServerError NewGetTickerInternalServerErrorFunc) middleware.Responder {
 			return middleware.NotImplemented("operation GetTicker has not yet been implemented")
 		}),
@@ -74,6 +77,9 @@ type ZacksAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
+	// GetHandler sets the operation handler for the get operation
+	// GET /
+	GetHandler GetHandler
 	// GetTickerHandler sets the operation handler for the get ticker operation
 	// GET /{ticker}
 	GetTickerHandler GetTickerHandler
@@ -141,6 +147,10 @@ func (o *ZacksAPI) Validate() error {
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
+	}
+
+	if o.GetHandler == nil {
+		unregistered = append(unregistered, "GetHandler")
 	}
 
 	if o.GetTickerHandler == nil {
@@ -248,6 +258,11 @@ func (o *ZacksAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"][""] = NewGet(o.context, o.GetHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

@@ -19,7 +19,7 @@ import (
 )
 
 type Config struct {
-	ServerPort   int  `env:"SERVER_PORT,default=8080"`
+	ServerPort   int  `env:"SERVER_PORT,default=80"`
 	CacheEnabled bool `env:"CACHE_ENABLED,default=true"`
 
 	DBCacheEnabled             bool   `env:"DBCACHE_ENABLED,default=true"`
@@ -85,6 +85,8 @@ func main() {
 
 	api := operations.NewZacksAPI(swaggerSpec)
 
+	// Handler for GET /
+	api.GetHandler = operations.GetHandlerFunc(handlers.GetHandler)
 	// Handler for GET /{ticker}
 	api.GetTickerHandler = operations.GetTickerHandlerFunc(handlers.GetTickerHandler)
 	// Handler for GET /{ticker}/history

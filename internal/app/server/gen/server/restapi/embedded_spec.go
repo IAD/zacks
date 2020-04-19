@@ -33,6 +33,15 @@ func init() {
     "version": "0.1.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/{ticker}": {
       "get": {
         "parameters": [
@@ -248,6 +257,15 @@ func init() {
     "version": "0.1.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/{ticker}": {
       "get": {
         "parameters": [

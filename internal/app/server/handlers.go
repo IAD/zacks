@@ -20,6 +20,14 @@ type Handlers struct {
 	z *zacks.Zacks
 }
 
+// Handler for GET /
+func (h *Handlers) GetHandler(
+	params *operations.GetParams,
+	getOK operations.NewGetOKFunc,
+) middleware.Responder {
+	return getOK()
+}
+
 // Handler for GET /{ticker}
 func (h *Handlers) GetTickerHandler(
 	params *operations.GetTickerParams,
