@@ -1,4 +1,4 @@
-package db_cache
+package dbcache
 
 import (
 	"context"
@@ -28,22 +28,36 @@ type DBCache struct {
 func (c *DBCache) GetRating(ctx context.Context, ticker string) (*models.Rating, error) {
 	cursor, err := c.mongoDB.Collection("zacks").Find(
 		ctx,
-		bson.D{{"ticker", ticker}},
-		options.Find().SetSort(bsonx.Doc{{"date_received", bsonx.Int32(1)}}).SetLimit(1),
+		bson.D{
+			{
+				Key:   "ticker",
+				Value: ticker,
+			},
+		},
+		options.Find().SetSort(
+			bsonx.Doc{
+				{
+					Key:   "date_received",
+					Value: bsonx.Int32(1),
+				},
+			},
+		).SetLimit(1),
 	)
 	if err != nil {
 		return nil, err
 	}
-	defer cursor.Close(ctx)
+	defer func() {
+		_ = cursor.Close(ctx)
+	}()
 
-	for cursor.Next(ctx) {
+	if cursor.Next(ctx) {
 		err = cursor.Err()
 		if err != nil {
 			return nil, err
 		}
 
 		result := &models.Rating{}
-		err := cursor.Decode(&result)
+		err = cursor.Decode(&result)
 		if err != nil {
 			return nil, err
 		}
@@ -57,13 +71,27 @@ func (c *DBCache) GetRating(ctx context.Context, ticker string) (*models.Rating,
 func (c *DBCache) GetHistory(ctx context.Context, ticker string) ([]models.Rating, error) {
 	cursor, err := c.mongoDB.Collection("zacks").Find(
 		ctx,
-		bson.D{{"ticker", ticker}},
-		options.Find().SetSort(bsonx.Doc{{"date_received", bsonx.Int32(1)}}),
+		bson.D{
+			{
+				Key:   "ticker",
+				Value: ticker,
+			},
+		},
+		options.Find().SetSort(
+			bsonx.Doc{
+				{
+					Key:   "date_received",
+					Value: bsonx.Int32(1),
+				},
+			},
+		),
 	)
 	if err != nil {
 		return nil, err
 	}
-	defer cursor.Close(ctx)
+	defer func() {
+		_ = cursor.Close(ctx)
+	}()
 
 	result := make([]models.Rating, 0)
 	for cursor.Next(ctx) {

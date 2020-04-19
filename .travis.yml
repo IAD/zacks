@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.13
+
+script:
+  - go mod vendor
+  - go mod download
+  - make lint

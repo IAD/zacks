@@ -860,7 +860,7 @@ $(document).ready(function() {
         <aside id="third_rail">
     <!-- Begin: rightCol1 -->
     <!-- right_panel start -->
-<div class="reserach_reports_cta">
+<div class="research_reports_cta">
                                     <p>
                                         <strong>Research Reports for LRCX</strong>
                                         <sup class="zacks_qtip_tooltip help_text" rel="tooltip_report_ribbon"><a href="javascript:void(0);" >[?]</a></sup><b>:</b>

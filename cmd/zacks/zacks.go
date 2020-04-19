@@ -53,7 +53,8 @@ func main() {
 	}
 
 	if config.DBCacheEnabled {
-		mongoClient, err := mongo.Connect(ctx, options.Client().ApplyURI(config.DBCacheMongodbURL))
+		var mongoClient *mongo.Client
+		mongoClient, err = mongo.Connect(ctx, options.Client().ApplyURI(config.DBCacheMongodbURL))
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -62,11 +63,11 @@ func main() {
 	}
 
 	if config.FetcherEnabled {
-		opts = append(opts, zacks.WithFetcher(time.Duration(time.Second)*time.Duration(config.FetcherTimoutSeconds)))
+		opts = append(opts, zacks.WithFetcher(time.Second*time.Duration(config.FetcherTimoutSeconds)))
 	}
 
 	if config.RefresherEnabled {
-		opts = append(opts, zacks.WithRefresher(time.Duration(time.Second)*time.Duration(config.RefresherRescanSeconds)))
+		opts = append(opts, zacks.WithRefresher(time.Second*time.Duration(config.RefresherRescanSeconds)))
 	}
 
 	beautyConfig, err := json.MarshalIndent(config, "", "    ")

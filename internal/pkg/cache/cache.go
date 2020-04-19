@@ -44,9 +44,7 @@ func (c *Cache) GetHistory(ctx context.Context, ticker string) ([]models.Rating,
 	}
 
 	result := make([]models.Rating, 0)
-	for _, rating := range ratings {
-		result = append(result, rating)
-	}
+	result = append(result, ratings...)
 
 	return result, nil
 }

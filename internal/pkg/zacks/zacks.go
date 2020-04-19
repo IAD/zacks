@@ -22,7 +22,9 @@ func NewZacks(
 	}
 
 	if z.refresher != nil && z.fetcher != nil {
-		go z.refresher.Start(ctx, z.cache, z.dbCache, z.fetcher)
+		go func() {
+			_ = z.refresher.Start(ctx, z.cache, z.dbCache, z.fetcher)
+		}()
 	}
 
 	return z
@@ -53,7 +55,9 @@ func (z *Zacks) GetRating(ctx context.Context, ticker string) (*models.Rating, e
 		rating, err := z.dbCache.GetRating(ctx, ticker)
 		if rating != nil {
 			if z.cache != nil {
-				go z.cache.AddRating(ctx, *rating)
+				go func() {
+					_ = z.cache.AddRating(ctx, *rating)
+				}()
 			}
 			if err == nil {
 				return rating, err
@@ -65,10 +69,14 @@ func (z *Zacks) GetRating(ctx context.Context, ticker string) (*models.Rating, e
 		rating, err := z.fetcher.GetRating(ctx, ticker)
 		if rating != nil {
 			if z.cache != nil {
-				go z.cache.AddRating(ctx, *rating)
+				go func() {
+					_ = z.cache.AddRating(ctx, *rating)
+				}()
 			}
 			if z.dbCache != nil {
-				go z.dbCache.AddRating(ctx, *rating)
+				go func() {
+					_ = z.dbCache.AddRating(ctx, *rating)
+				}()
 			}
 		}
 

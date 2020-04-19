@@ -24,11 +24,11 @@ type Fetcher struct {
 	timeout time.Duration
 }
 
-func (f *Fetcher) GetRating(ctx context.Context, ticker string) (*models.Rating, error) {
-	ctxWithTimeout, cancel := context.WithTimeout(ctx, f.timeout)
+func (zf *Fetcher) GetRating(ctx context.Context, ticker string) (*models.Rating, error) {
+	ctxWithTimeout, cancel := context.WithTimeout(ctx, zf.timeout)
 	defer cancel()
 
-	return f.fetch(ctxWithTimeout, ticker)
+	return zf.fetch(ctxWithTimeout, ticker)
 }
 
 func (zf *Fetcher) fetch(ctx context.Context, ticker string) (*models.Rating, error) {
@@ -36,7 +36,7 @@ func (zf *Fetcher) fetch(ctx context.Context, ticker string) (*models.Rating, er
 
 	req, _ := http.NewRequest("GET", url, nil)
 
-	req.WithContext(ctx)
+	req = req.WithContext(ctx)
 	req.Header.Add("Accept", "*/*")
 	req.Header.Add("Referer", url)
 	req.Header.Add("User-Agent", "Mozilla/5.0 (X11; Linux x86,M_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/76.0.3809.100 Chrome/76.0.3809.100 Safari/537.36")
@@ -47,7 +47,9 @@ func (zf *Fetcher) fetch(ctx context.Context, ticker string) (*models.Rating, er
 		return nil, err
 	}
 
-	defer res.Body.Close()
+	defer func() {
+		_ = res.Body.Close()
+	}()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err

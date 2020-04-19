@@ -75,3 +75,9 @@ prod-push:
 
 prod-deploy:
 	helm --kubeconfig ~/.kube/s1 upgrade --wait --install --force zacks-deployment ./deployments/k8s/s1/
+
+test:
+	go test ./...
+
+lint:
+	docker run --rm -v $(PWD):/usr/src/myapp -w /usr/src/myapp golangci/golangci-lint:v1.24.0 golangci-lint run

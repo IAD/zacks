@@ -95,10 +95,14 @@ func (r *Refresher) do(
 
 			if rating != nil {
 				if cache != nil {
-					go cache.AddRating(ctx, *rating)
+					go func() {
+						_ = cache.AddRating(ctx, *rating)
+					}()
 				}
 				if dbCache != nil {
-					go dbCache.AddRating(ctx, *rating)
+					go func() {
+						_ = dbCache.AddRating(ctx, *rating)
+					}()
 				}
 			}
 		}

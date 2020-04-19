@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/IAD/zacks.svg?branch=master)](https://travis-ci.com/IAD/zacks)
+
 # About
 This code is written on the GO(golang) language and could be used to receive Zacks Rank https://www.zacks.com/stocks/zacks-rank
 
