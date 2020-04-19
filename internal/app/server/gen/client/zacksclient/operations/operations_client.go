@@ -28,6 +28,40 @@ type Client struct {
 }
 
 /*
+Get get API
+*/
+func (a *Client) Get(params *GetParams) (*GetOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGetParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Get",
+		Method:             "GET",
+		PathPattern:        "/",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GetReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	switch v := result.(type) {
+
+	case *GetOK:
+		return v, nil
+	default:
+		return nil, fmt.Errorf("Unexpected Type %v", reflect.TypeOf(v))
+	}
+}
+
+/*
 GetTicker get ticker API
 */
 func (a *Client) GetTicker(params *GetTickerParams) (*GetTickerOK, *GetTickerNotFound, *GetTickerInternalServerError, error) {

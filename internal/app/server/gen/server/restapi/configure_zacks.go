@@ -40,7 +40,6 @@ func configureAPI(api *operations.ZacksAPI) http.Handler {
 	) middleware.Responder {
 		return middleware.NotImplemented("operation .Get has not yet been implemented")
 	})
-
 	// Handler for GET /{ticker}
 	api.GetTickerHandler = operations.GetTickerHandlerFunc(func(params *operations.GetTickerParams,
 		getTickerOK operations.NewGetTickerOKFunc,

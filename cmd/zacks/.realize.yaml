@@ -1,0 +1,22 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: zacks
+  path: .
+  commands:
+#    install:
+#      status: true
+    run:
+      status: true
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    - ../../internal
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor

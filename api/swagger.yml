@@ -18,10 +18,10 @@ paths:
   /{ticker}:
     get:
       parameters:
-      - type: string
-        name: ticker
-        in: path
-        required: true
+        - type: string
+          name: ticker
+          in: path
+          required: true
       responses:
         200:
           description: OK
@@ -38,10 +38,10 @@ paths:
   /{ticker}/history:
     get:
       parameters:
-      - type: string
-        name: ticker
-        in: path
-        required: true
+        - type: string
+          name: ticker
+          in: path
+          required: true
       responses:
         200:
           description: OK

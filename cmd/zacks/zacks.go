@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github/IAD/zacks/internal/app/server"
 	"github/IAD/zacks/internal/app/server/gen/server/restapi"
 	"github/IAD/zacks/internal/app/server/gen/server/restapi/operations"
 	db_cache "github/IAD/zacks/internal/pkg/db-cache"
@@ -81,7 +82,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	handlers := NewHandlers(z)
+	handlers := server.NewHandlers(z)
 
 	api := operations.NewZacksAPI(swaggerSpec)
 
